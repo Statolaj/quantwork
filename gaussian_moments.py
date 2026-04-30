@@ -12,7 +12,7 @@ def Moment_A(n, m):
 
 # B) Importance sampling: sample from Normal with higher variance
 def Moment_B(n, m):
-    tau = m    # variance
+    tau = m + 1    # variance
 
     incorrect_values = [random.gauss(0.0, math.sqrt(tau)) for _ in range(n)]
     adjusted_values = [x**m * math.sqrt(tau) * math.exp(-x*x/2 + x*x/(2*tau)) for x in incorrect_values]
@@ -20,7 +20,7 @@ def Moment_B(n, m):
 
 # C) Same importance sampling, but use antithetic variables for odd moments
 def Moment_C(n, m):
-    tau = m    # variance
+    tau = m + 1  # variance
 
     # For odd moments, use antithetic pairing
     if m % 2 == 1:
@@ -58,11 +58,43 @@ def Moment_D(n, m):
             value += (y**k) * f / q
 
         return value / n
+    
+# E) Symmetric two-Gaussian mixture for even moments plus antithetic variables for odd moments. Centers at $\pm sqrt(m)$ to capture the main contributions to the m-th moment of N(0,1).
+
+def normal_density(x, mu, tau):
+    return math.exp(-(x - mu)**2 / (2 * tau)) / math.sqrt(2 * math.pi * tau)
+
+def Moment_E(n, m):
+
+    # Odd moments
+    if m % 2 == 1:
+        return Moment_C(n, m)
+
+    # Even moments:
+    mu = math.sqrt(m)   # centers near the two important peaks ±sqrt(m)
+    tau = 0.5          # local-curvature-matching default
+    sigma = math.sqrt(tau)
+
+    total = 0.0
+
+    for _ in range(n):
+        if random.random() < 0.5:
+            x = random.gauss(mu, sigma)
+        else:
+            x = random.gauss(-mu, sigma)
+
+        p = math.exp(-x*x / 2) / math.sqrt(2 * math.pi)
+
+        q = 0.5 * normal_density(x, mu, tau) + 0.5 * normal_density(x, -mu, tau) # Proposal density q = 0.5*N(mu,tau) + 0.5*N(-mu,tau)
+
+        total += x**m * p / q
+
+    return total / n
 
 
 # Test cases 
-moments = [5, 10, 15, 20]
-n_draws = 5000
+moments = [5, 10, 15, 20, 25, 30, 35, 40]
+n_draws = 1000
 n_replications = 1000
 
 estimators = {
@@ -70,6 +102,7 @@ estimators = {
     "Moment_B": Moment_B,
     "Moment_C": Moment_C,
     "Moment_D": Moment_D,
+    "Moment_E": Moment_E,
 }
 
 # Estimate variance of MC estimators 
