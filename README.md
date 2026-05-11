@@ -1,11 +1,9 @@
 # quantwork
-A repository dedicated to simple programming tasks relevant for me in computational finance.
+A repository dedicated to simple programming tasks relevant for me in computational finance. In short:
 
   1) The folder 'black_scholes' contains several Python files relating to pricing in the Black-Scholes model like pricing the European call option using by the numerically solving pricing PDE and training a 2-layer neural network to learn the pricing formula from training data. Additionally, there is a script to recover the volatility from the option price.
   2) The folder 'misc_scripts' contains several Python and C++ files which implements a dice game, heat equation solver, Monte Carlo estimation of Gaussian moments as well as $\pi$ (with and without parallel programmering)
   3) The folder 'notes' contains some mathematical framework and model specification used in the pricing methods for Black-Scholes. 
-
-In more detail, the repo currently includes:
 
 # black_scholes
   1) black_scholes_pricing_from_heat_equation.py contains an extended heat equation solver compared to heat_equation_solver.py, which can handle other boundaries than 0. In particular, we implement the ideas in black_scholes_pricing_from_heat_equation.pdf and numerically solve the pricing PDEs stemming from the European and digital call options. We place the grid such that $\log(K)$ is the center grid point for both options. The file contains a test case of $S_0 = 200$, $K = 220$, $T = 1$, $r = 5$ and $\sigma = 0.5$. The option price is plotted against the stock price on the grid. The deviation for both types of options at $T$ compared to the theoretical closed form pricing formulas are less than $0.002$ with the closed form price being $35.925$ and $0.349$ for European and digital, respectively.
