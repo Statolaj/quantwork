@@ -1,7 +1,7 @@
 # quantwork
 A repository dedicated to simple programming tasks relevant for me in computational finance. In short:
 
-  1) The folder 'black_scholes' contains several Python files relating to pricing in the Black-Scholes model like pricing the European and digital call options by A) numerically solving pricing PDE, B) training a 2-layer neural network to learn the pricing formula from training data, and C) Monte Carlo estimation of the risk-neutral valuation formula. Additionally, there is a script to recover the volatility from the option price.
+  1) The folder 'black_scholes' contains several Python files relating to pricing in the Black-Scholes model like pricing the European and digital call options by A) numerically solving pricing PDE, B) training a 2-layer neural network to learn the pricing formula from training data, and C) Monte Carlo estimation of the risk-neutral valuation formula. A direct comparison of these three methods can be found [here](https://github.com/Statolaj/quantwork/blob/main/black_scholes/master_pricing_comparison.py). Additionally, there is a script to recover the volatility from the option price. 
   2) The folder 'misc_scripts' contains several Python and C++ files which implements a dice game, heat equation solver, Monte Carlo estimation of Gaussian moments as well as $\pi$ (with and without parallel programmering)
   3) The folder 'notes' contains some mathematical framework and model specification used in the pricing methods for Black-Scholes. 
 
