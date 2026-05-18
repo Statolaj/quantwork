@@ -21,19 +21,40 @@ A repository dedicated to simple programming tasks relevant to computational fin
 
 2. `bs_pricing_neural_network.py` contains a neural network approximation of the pricing formula for a European call option. In particular, the model, consisting of two hidden layers of width 64, is trained on a large number of labeled points to minimize the $L^2$-distance between test prices and predicted prices from the model.
 
-   The 95th percentile of the absolute deviation is roughly 1.5. Finally, we look at SHAP values and recover financially intuitive relationships: decreasing strike $K$, increasing volatility $\sigma$, and increasing stock price $S_0$ all increase the option price in the model.
+   The 95th percentile of the absolute deviation between the closed form solution and the NN approximation varies between 0.5 and 1.5 depending on the input parameters. Finally, we look at SHAP values and recover financially intuitive relationships: decreasing strike $K$, increasing volatility $\sigma$, and increasing stock price $S_0$ all increase the option price in the model.
 
    A possible improvement would be to switch to a four-parameter version using $\log(S_0/K)$ instead of treating $S_0$ and $K$ as separate inputs.
 
-3. `bs_pricing_monte_carlo.py` uses Monte Carlo estimation and antithetic variates to simulate the risk-neutral price of digital and European call options. The script runs quite fast.
+3. `bs_pricing_monte_carlo.py` uses Monte Carlo estimation and antithetic variates to simulate the risk-neutral price of digital and European call options.
 
-4. `implied_volatility.py` implements both the bisection method and Newton's method to numerically solve for the value of $\sigma$ that yields a given option price in the Black-Scholes formula.
+   As a test case, we run the parameters $S_0 = 100$, $K = 130$, $T = 1$, $r = 0.05$, and $\sigma = 0.2$, where the deviation of the Monte Carlo approximation from the closed form price is within 0.005 and 0.0005 of the European and Digital case, respectively. The approximation uses 1 million realizations and the program runs in 0.06 seconds.    
+
+5. `implied_volatility.py` implements both the bisection method and Newton's method to numerically solve for the value of $\sigma$ that yields a given option price in the Black-Scholes formula.
 
    Newton's method relies on vega and often converges faster. However, the test cases in the file illustrate that for very small initial guesses for $\sigma$, or for large strike prices $K$ where vega is close to 0, Newton's method can fail. On the other hand, bisection is slower but much more robust.
 
-5. `master_pricing_comparison.py` imports modules from `bs_pricing_heat_equation.py`, `bs_pricing_neural_network.py`, and `bs_pricing_monte_carlo.py` to compare the resulting prices with the closed-form Black-Scholes formula. The user inputs the stock price, strike price, maturity, interest rate, and volatility.
+6. `master_pricing_comparison.py` imports modules from `bs_pricing_heat_equation.py`, `bs_pricing_neural_network.py`, and `bs_pricing_monte_carlo.py` to compare the resulting prices with the closed-form Black-Scholes formula. The user inputs the stock price, strike price, maturity, interest rate, and volatility.
 
-   Initially training the neural network is the main bottleneck in terms of running time. From testing, it seems that solving the pricing PDE performs best, closely followed by Monte Carlo estimation, while the neural network performs somewhat worse.
+   Initially training the neural network is the main bottleneck in terms of running time. From testing, it seems that solving the pricing PDE performs best, closely followed by Monte Carlo estimation, while the neural network performs somewhat worse. This is illustrated by the following example.
+
+   ### Input parameters
+
+   | Parameter | Value |
+   |---:|---:|
+   | $S_0$ | 100.0 |
+   | $K$ | 120.0 |
+   | $T\$ | 1.0 |
+   | $r$ | 0.05 |
+   | $\sigma$ | 0.2 |
+
+   ### Results
+
+   | Method | European price | European abs. error | Digital price | Digital abs. error |
+   |---|---:|---:|---:|---:|
+   | Closed form | 3.247477 | 0.000000 | 0.212264 | 0.000000 |
+   | Heat PDE | 3.247450 | 0.000028 | 0.210633 | 0.001631 |
+   | Monte Carlo | 3.240198 | 0.007279 | 0.211922 | 0.000342 |
+   | Neural net | 4.455801 | 1.208323 | 0.164057 | 0.048207 |
 
 # misc_scripts
 
