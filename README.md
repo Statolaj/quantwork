@@ -7,7 +7,7 @@ A repository dedicated to simple programming tasks relevant to computational fin
    - training a two-layer neural network to learn the pricing formula from simulated training data,
    - Monte Carlo estimation of the risk-neutral valuation formula.
 
-   A direct comparison of these methods can be found [here](https://github.com/Statolaj/quantwork/blob/main/black_scholes/master_pricing_comparison.py). Additionally, there is a script for recovering the implied volatility from an option price.
+   A direct comparison of these methods can be found in ['master_pricing_comparison.py'](https://github.com/Statolaj/quantwork/blob/main/black_scholes/master_pricing_comparison.py). Additionally, there is a script for recovering the implied volatility from an option price.
 
 2. The folder `misc_scripts` contains several Python and C++ files implementing a dice game, a heat equation solver, Monte Carlo estimation of Gaussian moments, and Monte Carlo estimation of $\pi$ with and without parallel programming.
 
