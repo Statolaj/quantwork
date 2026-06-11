@@ -19,13 +19,15 @@ A repository dedicated to simple programming tasks relevant to computational fin
 
    We place the grid such that $\log(K)$ is the center grid point for both options. The file contains a test case with $S_0 = 200$, $K = 220$, $T = 1$, $r = 0.05$, and $\sigma = 0.5$. The option price is plotted against the stock price on the grid. The deviation from the theoretical closed-form pricing formulas is less than $0.002$ for both option types, with closed-form prices $35.925$ and $0.349$ for the European and digital call options, respectively.
 
-2. `bs_pricing_neural_network.py` contains a neural network approximation of the pricing formula for a European call option. In particular, the model, consisting of two hidden layers of width 64, is trained on a large number of labeled points to minimize the $L^2$-distance between test prices and predicted prices from the model.
+   $\textit{Update}$: Per suggestion, the initial value of the grid point at the jump in the digital option has been set to 1/2 instead of 0. This improves accuaracy. 
+
+3. `bs_pricing_neural_network.py` contains a neural network approximation of the pricing formula for a European call option. In particular, the model, consisting of two hidden layers of width 64, is trained on a large number of labeled points to minimize the $L^2$-distance between test prices and predicted prices from the model.
 
    The 95th percentile of the absolute deviation between the closed form solution and the NN approximation varies between 0.5 and 1.5 depending on the input parameters. Finally, we look at SHAP values and recover financially intuitive relationships: decreasing strike $K$, increasing volatility $\sigma$, and increasing stock price $S_0$ all increase the option price in the model.
 
    A possible improvement would be to switch to a four-parameter version using $\log(S_0/K)$ instead of treating $S_0$ and $K$ as separate inputs.
 
-3. `bs_pricing_monte_carlo.py` uses Monte Carlo estimation and antithetic variates to simulate the risk-neutral price of digital and European call options.
+4. `bs_pricing_monte_carlo.py` uses Monte Carlo estimation and antithetic variates to simulate the risk-neutral price of digital and European call options.
 
    As a test case, we run the parameters $S_0 = 100$, $K = 130$, $T = 1$, $r = 0.05$, and $\sigma = 0.2$, where the deviation of the Monte Carlo approximation from the closed form price is within 0.005 and 0.0005 of the European and Digital case, respectively. The approximation uses 1 million realizations and the program runs in 0.06 seconds.    
 
@@ -56,6 +58,13 @@ A repository dedicated to simple programming tasks relevant to computational fin
    | Monte Carlo | 3.240198 | 0.007279 | 0.211922 | 0.000342 |
    | Neural net | 4.455801 | 1.208323 | 0.164057 | 0.048207 |
 
+   ### Updated results
+
+   After update to initial value in digital option in `bs_pricing_heat_equation.py`, which now is the most accuarate pricing method.
+
+   | Method | European price | European abs. error | Digital price | Digital abs. error |
+   | Heat PDE | 3.247450 | 0.000028 | 0.212269 | 0.000005 |
+   
 # misc_scripts
 
 1. `pi_estimation.cpp` implements a simple Monte Carlo estimation of $\pi$ in C++ using uniform samples from a $2 \times 2$ square and computing the fraction of points that land inside the unit circle.
