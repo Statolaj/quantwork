@@ -65,12 +65,9 @@ def solve_black_scholes_from_heat(S0, K, T, r, sigma, option_type, n_space):
 
     # Digital case
     if option_type == "digital":
-        if n_space % 2 == 1:
-            n_space += 1
-        left_index = n_space // 2 - 1
-        right_index = n_space // 2
-        midpoint = 0.5 * (x_grid[left_index] + x_grid[right_index])
+        middle_index = n_space // 2
         h = (x_grid > x_K).astype(float)
+        h[middle_index] = 0.5
         
     # Stability condition for the explicit finite difference method
     delta_t = 0.45 * delta**2 / (2 * alpha)
