@@ -63,6 +63,7 @@ A repository dedicated to simple programming tasks relevant to computational fin
    After update to initial value in digital option in `bs_pricing_heat_equation.py`, which now is the most accuarate pricing method.
 
    | Method | European price | European abs. error | Digital price | Digital abs. error |
+   |---|---:|---:|---:|---:|
    | Heat PDE | 3.247450 | 0.000028 | 0.212269 | 0.000005 |
    
 # misc_scripts
